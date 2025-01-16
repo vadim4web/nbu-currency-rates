@@ -1,0 +1,1 @@
+import{c as s,a as t,e as a,i as r}from"./index-DTZjh1P-.js";const c={class:"not-found"},i={__name:"NotFoundView",setup(u){const e=r(),n=()=>{e.go(-1)};return(l,o)=>(a(),s("main",c,[o[0]||(o[0]=t("h2",null,"🚧 404 | Сторінка не знайдена",-1)),t("button",{onClick:n},"ПОВЕРНУТИСЯ")]))}};export{i as default};

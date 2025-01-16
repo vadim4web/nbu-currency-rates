@@ -10,6 +10,12 @@ const routes = [
 		component: () => import('@/views/SearchView.vue'),
 	},
 	{
+		path: '/edit/:id',
+		name: 'edit',
+		component: () => import('@/views/EditView.vue'),
+		props: true,
+	},
+	{
 		path: '/edited',
 		component: () => import('@/views/EditedView.vue'),
 	},

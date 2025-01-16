@@ -1,85 +1,80 @@
 <template>
-  <main>
-    <h2>
-      Головна
-    </h2>
+	<main>
+		<h2>Офіційний курс гривні щодо іноземних валют 📊</h2>
+		<p v-if="date">на дату: {{ date2show(date) }}</p>
 
-    <ol v-if="currencies && currencies.length">
-      <li v-for="({ txt, cc, rate }, i) in currencies" :key="i">
-        {{ cc }} | {{ txt }} | {{ rate }}
-      </li>
-    </ol>
-
-    <p v-else>
-      Завантаження даних...
-    </p>
-  </main>
+		<!-- Використовуємо компонент CurrenciesList -->
+		<CurrenciesList
+			:currencies="currencies"
+			:current-page="currentPage"
+			:items-per-page="itemsPerPage"
+			@update:current-page="currentPage = $event"
+		/>
+	</main>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-import axios from 'axios';
+import { onMounted, ref, computed } from 'vue'
+import fetchCurrencies from '@/utils/api'
+import date2show from '@/utils/date2show'
+import date4api from '@/utils/date4api'
+import CurrenciesList from '@/components/CurrenciesList.vue'
 
-// API URL (змінна середовища)
-const API = import.meta.env.VITE_API_URL;
+// Стан
+const currencies = ref([])
+const date = ref(null)
+const currentPage = ref(1)
+const itemsPerPage = 10
 
-// Стан для зберігання валют
-const currencies = ref([]);
+// Завантаження валют
+const loadCurrencies = async () => {
+	try {
+		date.value = new Date() // Поточна дата
+		const today = date4api(date.value)
 
-// Ключ для localStorage
-const LOCAL_STORAGE_KEY = 'currencies';
+		const cachedData = localStorage.getItem(today)
 
-// Функція для завантаження даних з API або з кешу
-const fetchCurrencies = async () => {
-  // Перевіряємо, чи є дані у localStorage
-  const cachedData = localStorage.getItem(LOCAL_STORAGE_KEY);
-  const cachedDate = localStorage.getItem('currencies_date');
+		if (cachedData) {
+			currencies.value = JSON.parse(cachedData)
+			console.log('Дані завантажені з кешу.')
+		} else {
+			const data = await fetchCurrencies()
+			currencies.value = data
 
-  // Сьогоднішня дата в форматі YYYYMMDD
-  const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+			// Зберігаємо в кеш
+			localStorage.setItem(today, JSON.stringify(data))
 
-  // Якщо є кешовані дані за сьогодні, використовуємо їх
-  if (cachedData && cachedDate === today) {
-    currencies.value = JSON.parse(cachedData);
-    console.log('Дані завантажені з кешу.');
-  } else {
-    // Інакше робимо запит до API
-    try {
-      const response = await axios.get(`${API}exchange?json`);
-      currencies.value = response.data;
+			console.log('Дані завантажені з API.')
+		}
 
-      // Зберігаємо дані у localStorage
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(currencies.value));
-      localStorage.setItem('currencies_date', today);
+		// Скидаємо сторінку на першу після завантаження
+		currentPage.value = 1
+	} catch (error) {
+		console.error('Помилка при завантаженні даних:', error)
+	}
+}
 
-      console.log('Дані завантажені з API.');
-    } catch (error) {
-      console.error('Помилка при завантаженні даних:', error);
-    }
-  }
-};
-
-// Завантаження даних при монтуванні
+// Завантаження при монтуванні
 onMounted(() => {
-  fetchCurrencies();
-});
+	loadCurrencies()
+})
 </script>
 
 <style lang="scss" scoped>
 main {
-  padding: 1rem;
+	p {
+		font-style: italic;
+		color: #888;
+	}
 
-  h2 {
-    margin-bottom: 1rem;
-  }
+	ol {
+		list-style: none;
 
-  ol {
-    list-style: none;
-    padding: 0;
-
-    li {
-      margin-bottom: 0.5rem;
-    }
-  }
+		li {
+			margin-bottom: 0.5rem;
+			font-size: 1rem;
+			font-weight: bold;
+		}
+	}
 }
 </style>

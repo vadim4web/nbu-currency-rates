@@ -7,19 +7,23 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist"
+    "deploy": "npm run build && gh-pages -d dist",
+    "prettify": "prettier src/**/*.{js,vue,css} --write",
+		"lint": "eslint --fix src/**/*.{js,vue}",
+		"format": "npm run prettify && npm run lint"
   },
   "dependencies": {
-    "@vuepic/vue-datepicker": "^11.0.1",
     "axios": "^1.7.9",
-    "pinia": "^2.3.0",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.0",
-    "vue3-datepicker": "^0.4.0"
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.18.0",
     "@vitejs/plugin-vue": "^5.2.1",
+    "eslint": "^9.18.0",
+    "eslint-plugin-vue": "^9.32.0",
     "gh-pages": "^6.3.0",
+    "prettier": "^3.4.2",
     "sass-embedded": "^1.83.4",
     "vite": "^6.0.5"
   }

@@ -1,15 +1,20 @@
 <template>
-  <main>
-    <h2>
-      404
-    </h2>
-  </main>
+	<main class="not-found">
+		<h2>🚧 404 | Сторінка не знайдена</h2>
+	</main>
 </template>
 
-<script setup>
-
-</script>
-
 <style lang="scss" scoped>
+.not-found {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	text-align: center;
 
+	h2 {
+		font-size: 2rem;
+		color: #555;
+	}
+}
 </style>

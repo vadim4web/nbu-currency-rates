@@ -1,1 +1,0 @@
-import{_ as o,c as t,a as n,e as s}from"./index-Ct2xapwm.js";const a={},c={class:"not-found"};function r(_,e){return s(),t("main",c,e[0]||(e[0]=[n("h2",null,"🚧 404 | Сторінка не знайдена",-1)]))}const f=o(a,[["render",r],["__scopeId","data-v-5a297b55"]]);export{f as default};

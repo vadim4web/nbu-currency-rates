@@ -17,7 +17,6 @@
 					}}</span>
 				</span>
 
-				<!-- Кнопка редагування -->
 				<button class="btn edit" title="Змінити" @click="startEdit(C)">
 					📝
 				</button>
@@ -26,8 +25,7 @@
 
 		<p v-else>Завантаження даних...</p>
 
-		<!-- Пагінація -->
-		<paginator-element
+		<paginator-component
 			:current-page="currentPage"
 			:total-pages="totalPages"
 			@update:current-page="$emit('update:currentPage', $event)"
@@ -39,9 +37,8 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import date2edit from '@/utils/date2edit'
-import PaginatorElement from '@/components/PaginatorElement.vue'
+import PaginatorComponent from '@/components/PaginatorComponent.vue'
 
-// Пропси
 const { currencies, currentPage, itemsPerPage } = defineProps({
 	currencies: {
 		type: Array,
@@ -57,13 +54,11 @@ const { currencies, currentPage, itemsPerPage } = defineProps({
 	},
 })
 
-// Еміти
 defineEmits(['update:currentPage'])
 
-// Ключ у localStorage
+const router = useRouter()
 const STORAGE_KEY_ORIGINAL = 'currency_original'
 
-// Підрахунок сторінок
 const pagedCurrencies = computed(() => {
 	const start = (currentPage - 1) * itemsPerPage
 	return currencies.slice(start, start + itemsPerPage)
@@ -73,14 +68,8 @@ const totalPages = computed(() => {
 	return Math.ceil(currencies.length / itemsPerPage)
 })
 
-// Метод для початку редагування
-const router = useRouter()
-
 const startEdit = currency => {
-	// Зберігаємо оригінальну валюту
 	localStorage.setItem(STORAGE_KEY_ORIGINAL, JSON.stringify(currency))
-
-	// Переходимо на сторінку редагування
 	const key = date2edit(currency)
 	router.push(`/edit/${key}`)
 }
@@ -116,7 +105,7 @@ const startEdit = currency => {
 			}
 
 			.currency-code {
-				width: 3.5ch; /* Максимальна ширина тексту */
+				width: 3.5ch;
 				position: relative;
 				height: 100%;
 				align-self: flex-start;
@@ -147,9 +136,9 @@ const startEdit = currency => {
 
 			.currency-name,
 			.currency-rate {
-				white-space: nowrap; /* Запобігаємо переносу тексту */
-				overflow: hidden; /* Приховуємо зайвий текст */
-				text-overflow: ellipsis; /* Додаємо три крапки */
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
 			}
 
 			.btn {

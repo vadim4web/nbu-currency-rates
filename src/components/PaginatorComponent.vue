@@ -1,5 +1,5 @@
 <template>
-	<div v-if="totalPages > 1" class="PaginatorElement">
+	<div v-if="totalPages > 1" class="paginator">
 		<button
 			:disabled="currentPage === 1"
 			@click="$emit('update:currentPage', currentPage - 1)"
@@ -31,8 +31,8 @@ defineProps({
 defineEmits(['update:currentPage'])
 </script>
 
-<style scoped>
-.PaginatorElement {
+<style lang="scss" scoped>
+.paginator {
 	margin-top: 1rem;
 	display: flex;
 	justify-content: space-between;

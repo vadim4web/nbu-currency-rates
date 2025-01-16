@@ -20,7 +20,7 @@
 				<legend>Дії 🛠️</legend>
 
 				<button class="btn save" type="submit">Зберегти<br />💾</button>
-				<button class="btn cancel" type="button" @click="cancelEdit">
+				<button class="btn cancel" type="button" @click="emptyTempAndBack">
 					Відмінити<br />❌
 				</button>
 				<button class="btn delete" type="button" @click="deleteCurrency">
@@ -35,11 +35,9 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-// Одержання параметрів руту
 const route = useRoute()
 const router = useRouter()
 
-// Стан для валюти
 const currency = ref({
 	cc: '',
 	txt: '',
@@ -47,11 +45,9 @@ const currency = ref({
 	exchangedate: '',
 })
 
-// Ключі в localStorage
 const STORAGE_KEY_ORIGINAL = 'currency_original'
 const STORAGE_KEY_EDITED = 'currency_edited'
 
-// Завантаження даних з localStorage
 onMounted(() => {
 	const currencyData = JSON.parse(localStorage.getItem(STORAGE_KEY_ORIGINAL))
 	if (currencyData) {
@@ -59,38 +55,25 @@ onMounted(() => {
 	}
 })
 
-// Збереження змін
+const emptyTempAndBack = () => {
+  localStorage.removeItem(STORAGE_KEY_ORIGINAL)
+	router.go(-1)
+}
+
 const saveCurrency = () => {
 	const editedCurrencies =
 		JSON.parse(localStorage.getItem(STORAGE_KEY_EDITED)) || {}
 	editedCurrencies[route.params.id] = currency.value
 	localStorage.setItem(STORAGE_KEY_EDITED, JSON.stringify(editedCurrencies))
-
-	// Видалення тимчасових даних
-	localStorage.removeItem(STORAGE_KEY_ORIGINAL)
-
-	// Перехід назад
-	router.go(-1)
+  emptyTempAndBack()
 }
 
-// Скасування редагування
-const cancelEdit = () => {
-	localStorage.removeItem(STORAGE_KEY_ORIGINAL)
-	router.go(-1)
-}
-
-// Видалення валюти
 const deleteCurrency = () => {
 	const editedCurrencies =
 		JSON.parse(localStorage.getItem(STORAGE_KEY_EDITED)) || {}
 	delete editedCurrencies[route.params.id]
 	localStorage.setItem(STORAGE_KEY_EDITED, JSON.stringify(editedCurrencies))
-
-	// Видалення тимчасових даних
-	localStorage.removeItem(STORAGE_KEY_ORIGINAL)
-
-	// Перехід назад
-	router.go(-1)
+  emptyTempAndBack()
 }
 </script>
 
@@ -99,11 +82,6 @@ const deleteCurrency = () => {
 	padding: 2.5rem;
 	border-radius: 8px;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-	text-align: center;
-	margin-bottom: 1rem;
 }
 
 .edit-form {

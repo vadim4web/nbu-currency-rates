@@ -1,10 +1,9 @@
 import axios from 'axios'
 import date4api from './date4api'
 
-// API URL
+
 const API = import.meta.env.VITE_API_URL
 
-// Утиліта для отримання валют
 export default async (date = null) => {
 	try {
 		const query =

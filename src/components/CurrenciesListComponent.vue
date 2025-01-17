@@ -8,9 +8,13 @@
 				:data-currency="JSON.stringify(C)"
 			>
 				<span class="currency-info">
-					<strong class="currency-code" :data-date="C.exchangedate">{{
+					<strong
+						class="currency-code"
+						:data-date="C.exchangedate"
+						:data-flag="getFlag(C.cc)">{{
 						C.cc
-					}}</strong>
+					}}
+				</strong>
 					| <span class="currency-name" :title="C.txt">{{ C.txt }}</span> |
 					<span class="currency-rate" :title="C.rate">{{
 						C.rate.toFixed(4)
@@ -73,6 +77,8 @@ const startEdit = currency => {
 	const key = date2edit(currency)
 	router.push(`/edit/${key}`)
 }
+
+const getFlag = code => String.fromCodePoint(...code.slice(0, 2).split('').map(ch => ch.charCodeAt(0) + 0x1f1a5))
 </script>
 
 <style lang="scss" scoped>
@@ -111,6 +117,7 @@ const startEdit = currency => {
 				align-self: flex-start;
 				align-content: flex-start;
 				line-height: 1.5ch;
+				background: linear-gradient(90deg, #ff000080, #00800080, #0000ff80);
 			}
 
 			.currency-code::before {
@@ -122,6 +129,20 @@ const startEdit = currency => {
 				font-size: 0.55rem;
 				font-weight: normal;
 				font-style: italic;
+				background: linear-gradient(90deg, #ff000080, #00800080, #0000ff80);
+			}
+
+			.currency-code::after {
+				position: absolute;
+				top: 0.25ch;
+				left: -0.25ch;
+				content: attr(data-flag);
+				line-height: 1ch;
+				font-size: 3.5ch;
+				font-family: "Noto Color Emoji", serif;
+				font-weight: 400;
+				font-style: normal;
+				z-index: -1;
 			}
 
 			.currency-name {

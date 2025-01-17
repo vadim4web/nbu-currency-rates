@@ -7,10 +7,10 @@
 			<input
 				type="date"
 				:value="dateInput"
+				:max="maxDate"
 				@input="updateDate($event.target.value)"
 			/>
 		</p>
-
 
 		<currencies-list-component
 			:currencies="currencies"
@@ -33,6 +33,7 @@ const date = ref(null)
 const currentPage = ref(1)
 const itemsPerPage = 10
 const dateInput = ref(date4input(new Date()))
+const maxDate = ref(date4input(new Date())) // Обмеження на максимум
 
 const loadCurrencies = async selectedDate => {
 	try {

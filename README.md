@@ -13,29 +13,34 @@ nbu-currency-rates/
 ├── public/             # Static assets
 │   └── favicon.png     # App favicon
 ├── src/                # Source code
-│   ├── App.vue         # Root Vue component
 │   ├── assets/         # Static assets (images, etc.)
 │   ├── components/     # Reusable components
 │   │   ├── CurrenciesListComponent.vue
 │   │   ├── FooterComponent.vue
 │   │   ├── HeaderComponent.vue
 │   │   └── PaginatorComponent.vue
-│   ├── main.js         # Entry point for the app
 │   ├── router/         # Vue Router configuration
-│   ├── style.css       # Global styles
 │   ├── utils/          # Utility functions
-│   └── views/          # Pages (views)
-│       ├── EditedView.vue
-│       ├── EditView.vue
-│       ├── HomeView.vue
-│       ├── NotFoundView.vue
-│       └── SearchView.vue
-├── index.html          # Main HTML file
-├── vite.config.js      # Vite configuration
+│   │   ├── api.js
+│   │   ├── date2edit.js
+│   │   ├── date2show.js
+│   │   ├── date4api.js
+│   │   └── date4input.js
+│   ├── views/          # Pages (views)
+│   │   ├── EditedView.vue
+│   │   ├── EditView.vue
+│   │   ├── HomeView.vue
+│   │   ├── NotFoundView.vue
+│   │   └── SearchView.vue
+│   ├── App.vue         # Root Vue component
+│   ├── main.js         # Entry point for the app
+│   └── style.css       # Global styles
+├── .prettierrc         # Prettier configuration
 ├── eslint.config.js    # ESLint configuration
+├── index.html          # Main HTML file
 ├── package.json        # Project metadata and dependencies
-├── package-lock.json   # Dependency lockfile
-└── README.md           # Project documentation (this file)
+├── README.md           # Project documentation (this file)
+└── vite.config.js      # Vite configuration  
 ```
 
 ---

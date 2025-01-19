@@ -32,12 +32,10 @@ const loadCurrencies = async () => {
 
 		if (cachedData) {
 			currencies.value = JSON.parse(cachedData)
-			console.log('Дані завантажені з кешу.')
 		} else {
 			const data = await fetchCurrencies()
 			currencies.value = data
 			localStorage.setItem(today, JSON.stringify(data))
-			console.log('Дані завантажені з API.')
 		}
 
 		currentPage.value = 1

@@ -5,9 +5,9 @@
 		<p>
 			🔍 пошук за датою:
 			<input
+				:max="maxDate"
 				type="date"
 				:value="dateInput"
-				:max="maxDate"
 				@input="updateDate($event.target.value)"
 			/>
 		</p>
@@ -43,12 +43,10 @@ const loadCurrencies = async selectedDate => {
 
 		if (cachedData) {
 			currencies.value = JSON.parse(cachedData)
-			console.log('Дані завантажені з кешу.')
 		} else {
 			const data = await fetchCurrencies(apiDate)
 			currencies.value = data
 			localStorage.setItem(apiDate, JSON.stringify(data))
-			console.log('Дані завантажені з API.')
 		}
 
 		currentPage.value = 1
@@ -58,7 +56,6 @@ const loadCurrencies = async selectedDate => {
 }
 
 const updateDate = newDate => {
-	console.log('Вибрана дата:', newDate)
 	const parsedDate = new Date(newDate)
 	dateInput.value = date4input(parsedDate)
 	loadCurrencies(parsedDate)
